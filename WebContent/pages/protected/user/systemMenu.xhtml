@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+
+
+<ui:composition>
+		<h:form id="menu">
+			
+	  <p:menubar>
+	  	<p:menuitem value="#{msgs.home}" url="/pages/protected/user/user.xhtml" icon="ui-icon-home" />  
+	  	
+	  	<p:menuitem value="#{msgs.status}" url="/pages/protected/user/status.xhtml"  icon="ui-icon-document"/> 
+	  	
+	  	<p:submenu label="#{msgs.buttonUser}" icon="ui-icon-document">  
+            
+                <p:menuitem value="#{msgs.create}" url="/pages/protected/admin/createUser.xhtml" 
+                rendered="#{userSessionMB.userAdmin}" />
+                  
+                <p:menuitem value="#{msgs.retrieve}" url="/pages/protected/user/users.xhtml"/>
+                
+            <p:separator />  
+        </p:submenu>  
+        <p:submenu label="#{msgs.station}" rendered="#{userSessionMB.userAdmin}">
+	  		 <p:menuitem value="#{msgs.create}" url="/pages/protected/admin/createStation.xhtml" rendered="#{userSessionMB.userAdmin}"/>
+	  		 <p:menuitem value="#{msgs.retrieve}" url="/pages/protected/user/stations.xhtml" rendered="#{userSessionMB.userAdmin}"/>	 
+	  	</p:submenu>
+         
+<!-- 	  	<p:submenu label="#{msgs.options}"  icon="ui-icon-document" > -->
+<!-- 	  		 <p:menuitem value="#{msgs.updateYourAccess}" url="/pages/protected/user/updateUser.xhtml" -->
+<!-- 	  		 ajax="false"> -->
+<!-- 	  		 	<f:setPropertyActionListener target="#{userOptionsMB.user}" value="#{userSessionMB.user}" /> -->
+<!-- 	  		 </p:menuitem> -->
+<!-- 	  	</p:submenu> -->
+	  
+	  	<p:menuitem value="#{msgs.logout}( #{userSessionMB.user.login} )" action="#{userSessionMB.logOut()}" ajax="false" />
+	  </p:menubar>
+	  </h:form>
+</ui:composition>
+
+</html>

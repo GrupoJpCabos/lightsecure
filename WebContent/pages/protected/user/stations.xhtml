@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:composition template="/templates/privade.xhtml">
+			<ui:define name="title">#{msgs.retrieveStationTitle} </ui:define>
+			<ui:define name="body">
+			
+				<h:form id="retrieve">
+				<p:messages />
+				<p:dataTable value="#{stationMB.stations}" var="station" emptyMessage="#{msgs.emptyStationList}"
+				selectionMode="single" selection="#{stationMB.stationSelectedView}" rowKey="#{station}">
+				
+					<f:facet name="header">#{msgs.retrieveStationTitle}</f:facet>
+					
+					 <p:ajax event="rowSelect" listener="#{stationMB.onRowSelect}" update=":showStationFull" 
+					 oncomplete="dialogStationFull.show()" immediate="true"/>
+					 
+        			<p:ajax event="rowUnselect" listener="#{stationMB.onRowUnselect}" update=":showStationFull" />
+        				
+					<p:column headerText="#{msgs.registrationPlc}" width="0">
+						#{station.registrationPlc}
+					</p:column>
+					
+					<p:column headerText="#{msgs.nameStation}"  width="0">
+						#{station.name}
+					</p:column>
+					
+					<p:column headerText="#{msgs.descriptionStation}"  width="0">
+						#{station.description}
+					</p:column>
+
+					<p:column headerText="#{msgs.street}" >
+						#{station.address.street}
+					</p:column>
+					
+				
+					
+					<p:column headerText="#{msgs.update}"  width="0">
+						<p:commandLink oncomplete="dialogStation.show()" 
+									   immediate="true" 
+									   ajax="true" 
+									   update=":update">
+									   
+								<h:graphicImage library="imagens" 
+												name="editar.png" 
+												style="border:0" />
+												
+								<f:setPropertyActionListener target="#{stationMB.stationRecup}" 
+															 value="#{station}"/>
+							</p:commandLink>
+					</p:column>
+					
+					<p:column headerText="#{msgs.delete}"  width="0">
+						<h:commandLink action="#{stationMB.delete}" 
+								onclick="if(!confirm('#{msgs.confirmStationDelete} #{station.name} ?')) return false;">
+							<h:graphicImage library="imagens" 
+											name="excluir.png" 
+											style="border:0" />
+							<f:setPropertyActionListener target="#{stationMB.station}" 
+														 value="#{station}"/>
+							</h:commandLink>
+						
+					</p:column>
+				</p:dataTable>
+				</h:form>
+
+				
+<!-- 				Find Station Full -->
+<!-- 				Find Station Full -->
+<!-- 				Find Station Full -->
+<!-- 				Find Station Full -->
+<!-- 				Find Station Full -->
+<!-- 				Find Station Full -->
+
+				<p:dialog widgetVar="dialogStationFull"
+				  position="center" closeOnEscape="true" 
+				  showEffect="explode" hideEffect="explode" closable="true" 
+				  minWidth="400" header="#{msgs.retrieveStationTitle}">
+				  
+				  <h:form id="showStationFull">
+				 	
+					<f:facet name="header">#{msgs.retrieveStationTitle}</f:facet>
+					<p:panelGrid columns="2"> 
+					<h:outputLabel value="#{msgs.registrationPlc}" />
+					<h:outputText  value="#{stationMB.station.registrationPlc}" />
+					
+					<h:outputLabel value="#{msgs.nameStation}" />
+					<h:outputText  value="#{stationMB.station.name}" />
+					
+					<h:outputLabel value="#{msgs.descriptionStation}" />
+					<h:outputText  value="#{stationMB.station.description}" />
+					
+					<h:outputLabel value="#{msgs.street}" />
+					<h:outputText  value="#{stationMB.station.address.street}" />
+					
+					<h:outputLabel value="#{msgs.neighborhood}" /> 
+					<h:outputText  value="#{stationMB.station.address.neighborhood}" />
+					
+					<h:outputLabel value="#{msgs.number}" />
+					<h:outputText  value="#{stationMB.station.address.number}" />
+					
+					<h:outputLabel value="#{msgs.zipCode}" />
+					<h:outputText  value="#{stationMB.station.address.zipCode}" />
+					
+					<h:outputLabel value="#{msgs.city}" />
+					<h:outputText  value="#{stationMB.station.address.city}" />
+					
+					<h:outputLabel value="#{msgs.state}" />
+					<h:outputText  value="#{stationMB.station.address.state}" />
+					
+					<h:outputLabel value="#{msgs.longitude}" />
+					<h:outputText  value="#{stationMB.station.address.longitude}" />
+					
+					<h:outputLabel value="#{msgs.latitude}" />
+					<h:outputText  value="#{stationMB.station.address.latitude}" />
+			  		</p:panelGrid>					
+				  </h:form>
+				</p:dialog>
+				
+<!-- 				Update Station -->
+<!-- 				Update Station -->
+<!-- 				Update Station -->
+<!-- 				Update Station -->
+<!-- 				Update Station -->
+<!-- 				Update Station -->
+				
+				<p:dialog widgetVar="dialogStation" 
+						  width="400" 
+						  height="200" 
+				  		  position="center" 
+				  		  modal="true" 
+				  		  closeOnEscape="true" 
+				  		  showEffect="explode" 
+				  		  hideEffect="explode" 
+				  		  closable="true" 
+				  		  minWidth="400" 
+				  		  header="#{msgs.updateStationTitle}"
+				  		  resizable="true" 
+				  		  dynamic="true">
+			
+				<h:form id="update">
+					<h:inputHidden value="#{stationMB.station.address.id}" />
+					<h:inputHidden value="#{stationMB.station.id}" />
+				
+				<fieldset>				
+						<h:outputLabel value="#{msgs.registrationPlc}" for="id" />
+						<h:inputText id="id" label="#{msgs.registrationPlc}" 
+						value="#{stationMB.station.registrationPlc}" />
+						<br /><br />
+				
+						<h:outputLabel value="#{msgs.nameStation}" for="name" />
+						<h:inputText id="name" label="#{msgs.nameStation}" 
+						value="#{stationMB.station.name}" />
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.descriptionStation}" for="description" />
+						<h:inputTextarea id="description" value="#{stationMB.station.description}"
+						label="#{stationMB.station.description}"/>
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.street}" for="street" />
+						<h:inputText id="street" value="#{stationMB.station.address.street}"
+						label="#{msgs.street}" />
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.number}" for="number"/> 
+						<h:inputText id="number" value="#{stationMB.station.address.number}"
+						label="#{msgs.number}" />
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.neighborhood}" for="neighborhood" />
+						<h:inputText id="neighborhood" value="#{stationMB.station.address.neighborhood}"
+						label="#{msgs.neighborhood}" />
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.zipCode}" for="zipCode" />
+						<h:inputText id="zipCode" value="#{stationMB.station.address.zipCode}"
+						label="#{msgs.zipCode}" />
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.city}" for="city"/>
+						<h:inputText id="city" value="#{stationMB.station.address.city}" label="#{msgs.city}"/>
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.state}" for="state" />
+						<h:inputText id="state" value="#{stationMB.station.address.state}" label="#{msgs.state}" />
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.longitude}" for="longitude" />
+						<h:inputText id="longitude" value="#{stationMB.station.address.longitude}" 
+						label="#{msgs.longitude}" />
+						<br /><br />
+						
+						<h:outputLabel value="#{msgs.latitude}" for="latitude" />
+						<h:inputText id="latitude" value="#{stationMB.station.address.latitude}"
+						 label="#{msgs.latitude}" />
+					<br />
+					<br />
+								
+					<p />
+					<p:commandButton action="#{stationMB.update}" 
+									 value="#{msgs.update}" 
+									 update=":retrieve "
+									 oncomplete="dialogStation.hide()" 
+									 ajax="true"/>
+				</fieldset>
+			</h:form>
+		</p:dialog>
+				
+				
+				
+				
+			</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/privade.xhtml">
+			<ui:define name="title">#{msgs.retrieveUserTitle} </ui:define>
+			<ui:define name="body">
+				<h:form id="retrieve" acceptcharset="UTF-8">
+					<p:messages />
+					<p:dataTable value="#{userMB.users}" var="user" rules="rows" cellpadding="5"
+					emptyMessage="#{msgs.emptyUserList}" paginator="true" rows="10" lazy="false">
+						
+						<f:facet name="header">
+							#{msgs.retrieveUserTitle}
+						</f:facet>
+						
+						<p:column headerText="#{msgs.active}" rendered="#{userSessionMB.userAdmin}">
+							<h:commandLink action="#{userMB.isActive}" width="0" 
+							rendered="#{userSessionMB.userAdmin}">
+									<h:graphicImage library="imagens" 
+									name="usuario_ativo_#{user.active}.png" style="border:0"/>
+									<f:setPropertyActionListener target="#{userMB.user}" value="#{user}"/>
+								</h:commandLink>
+						</p:column>
+						
+						<p:column headerText="#{msgs.login}">
+							<h:outputText value="#{user.login}" />
+						</p:column>
+						
+						<p:column headerText="#{msgs.roles}" rendered="#{userSessionMB.userAdmin}">
+							<h:commandLink action="#{userMB.addRoles(user,'ADMIN')}" 
+								title="Permissão para Administrador" rendered="#{userSessionMB.userAdmin}">
+									<h:graphicImage library="imagens" 
+									name="ROLE_ADMINISTRADOR_#{user.roles.contains('ADMIN')}.png" 
+									style="border:0"/>
+							</h:commandLink>
+						</p:column>
+						
+						<p:column headerText="#{msgs.update}" width="0" rendered="#{userSessionMB.userAdmin}">
+							<p:commandLink oncomplete="dialogUser.show()" immediate="true" ajax="true" 
+							update=":update">
+								<f:ajax execute="@this" render=":update" immediate="true"/>
+								<h:graphicImage library="imagens" name="editar.png" 
+								style="border:0" />
+								<f:setPropertyActionListener target="#{userMB.user}" value="#{user}"/>
+							</p:commandLink>
+						</p:column >
+						
+						<p:column headerText="#{msgs.delete}" width="0" rendered="#{userSessionMB.userAdmin}">
+							<h:commandLink action="#{userMB.delete}" 
+								onclick="if(!confirm('#{msgs.confirmUserDelete} #{user.login}?')) return false;">
+									<h:graphicImage library="imagens" name="excluir.png" style="border:0" />
+									<f:setPropertyActionListener target="#{userMB.user}" value="#{user}"/>
+							</h:commandLink>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+				
+				
+			<p:dialog widgetVar="dialogUser" width="400" height="200" 
+				  position="center" modal="true" closeOnEscape="true" 
+				  showEffect="explode" hideEffect="explode" closable="true" 
+				  minWidth="400" header="#{msgs.updateUserTitle}">
+			
+			<h:form id="update">
+					<h:inputHidden value="#{userMB.user.id}" />	
+				<fieldset>
+					<h:outputLabel value="Login" for="login" /> 
+					<h:inputText value="#{userMB.user.login}" />
+					<br />
+					<br />
+					<h:outputLabel value="#{msgs.password}" for="password" />
+					<p:password id="password" label="#{msgs.password}" value="#{userMB.user.password}"
+						maxlength="10"  feedback="true"    
+                        promptLabel="Digita a senha" weakLabel="Nível Fraco"  
+                        goodLabel="Nível Razoavel" strongLabel="Nível Forte"
+                        required="true" requiredMessage="#{msgs.requiredPassword}"  />
+                        
+					<br />
+					<br />
+					<h:outputLabel value="#{msgs.confirmPassword}" for="confirmPassword" />
+					<p:password id="confirmPassword" label="#{msgs.confirmPassword}"  
+					value="#{userMB.confirmPassword}" size="10" maxlength="10"/>
+					<br />
+					<br />
+								
+					<p />
+					<p:commandButton action="#{userMB.update}" value="#{msgs.update}" update=":retrieve "
+					oncomplete="dialogUser.hide()" ajax="true"/>
+				</fieldset>
+			</h:form>
+		</p:dialog>
+			</ui:define>
+	</ui:composition>
+
+</html>

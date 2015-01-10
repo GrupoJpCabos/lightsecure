@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:composition template="/templates/privade.xhtml">
+			<ui:define name="title">#{msgs.createUserTitle} </ui:define>
+			<ui:define name="body">
+				<h:form id="create" acceptcharset="UTF-8" lang="pt_BR">
+				<p:messages />
+				<h:panelGrid columns="2">
+					
+					<f:facet name="header"> #{msgs.createUserTitle}</f:facet>
+					
+					<h:outputLabel value="#{msgs.login}" for="login" />
+					<p:inputText id="login" value="#{userMB.user.login}" 
+					required="true" requiredMessage="#{msgs.requiredLogin}"/>
+					
+					
+					<h:outputLabel value="#{msgs.password}" for="password" />
+					<p:password id="password" label="#{msgs.password}" value="#{userMB.user.password}"
+						maxlength="10"  feedback="true"    
+                        promptLabel="Digita a senha" weakLabel="Nível Fraco"  
+                        goodLabel="Nível Razoavel" strongLabel="Nível Forte"
+                        required="true" requiredMessage="#{msgs.requiredPassword}"  />
+                        
+					
+					<h:outputLabel value="#{msgs.confirmPassword}" for="confirmPassword" />
+					<p:password id="confirmPassword" label="#{msgs.confirmPassword}"  
+					value="#{userMB.confirmPassword}" size="10" maxlength="10"/>
+					
+					<h:outputLabel value="#{msgs.roles}" for="roles" /> 
+					<p:selectOneRadio id="roles" value="#{userMB.roles}" 
+					required="true" requiredMessage="#{msgs.requiredRoles}">
+					
+						<f:selectItem  itemValue="ADMIN" itemLabel="Administrador"/>
+						<f:selectItem  itemValue="USUARIO" itemLabel="Usuário" />
+					</p:selectOneRadio>
+					
+					
+					<p:commandButton action="#{userMB.create}" value="#{msgs.create}" update="@form" />
+					
+				</h:panelGrid>
+				</h:form>
+			</ui:define>
+	</ui:composition>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:composition template="/templates/privade.xhtml">
+			<ui:define name="title">#{msgs.createStationTitle} </ui:define>
+			<ui:define name="body">
+				<h:form id="create">
+					<p:messages />
+				
+					<h:panelGrid columns="2">
+						<f:facet name="header">#{msgs.createStationTitle}</f:facet>
+						
+						<h:outputLabel value="#{msgs.registrationPlc}" for="id" />
+						<h:inputText id="id" label="#{msgs.registrationPlc}"  
+						value="#{stationMB.station.registrationPlc}" />
+						
+						
+						<h:outputLabel value="#{msgs.nameStation}" for="name" />
+						<h:inputText id="name" label="#{msgs.nameStation}" 
+						value="#{stationMB.station.name}" />
+						
+						<h:outputLabel value="#{msgs.descriptionStation}" for="description" />
+						<h:inputTextarea id="description" value="#{stationMB.station.description}"
+						label="#{stationMB.station.description}"/>
+						
+					
+					
+						
+						<h:outputLabel value="#{msgs.street}" for="street" />
+						<h:inputText id="street" value="#{stationMB.address.street}"
+						label="#{msgs.street}" />
+						
+						<h:outputLabel value="#{msgs.number}" /> 
+						<h:inputText id="number" value="#{stationMB.address.number}"
+						label="#{msgs.number}" />
+						
+						<h:outputLabel value="#{msgs.neighborhood}" for="neighborhood" />
+						<h:inputText id="neighborhood" value="#{stationMB.address.neighborhood}"
+						label="#{msgs.neighborhood}" />
+						
+						<h:outputLabel value="#{msgs.zipCode}" for="zipCode" />
+						<h:inputText id="zipCode" value="#{stationMB.address.zipCode}"
+						label="#{msgs.zipCode}" />
+						
+						<h:outputLabel value="#{msgs.city}" for="city"/>
+						<h:inputText id="city" value="#{stationMB.address.city}" label="#{msgs.city}"/>
+						
+						<h:outputLabel value="#{msgs.state}" for="state" />
+						<h:inputText id="state" value="#{stationMB.address.state}" label="#{msgs.state}" />
+						
+						<h:outputLabel value="#{msgs.longitude}" for="longitude" />
+						<h:inputText id="longitude" value="#{stationMB.address.longitude}" 
+						label="#{msgs.longitude}" />
+						
+						<h:outputLabel value="#{msgs.latitude}" for="latitude" />
+						<h:inputText id="#{msgs.latitude}" value="#{stationMB.address.latitude}"
+						 label="#{msgs.latitude}" />
+					</h:panelGrid> 
+					
+					<h:commandButton action="#{stationMB.create}" value="#{msgs.create}" />
+				</h:form>
+			</ui:define>
+	</ui:composition>
+			
+			
+</html>

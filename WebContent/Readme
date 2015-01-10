@@ -1,0 +1,20 @@
+Criar uma database em qualquer banco !
+
+Adicionar a JNDI para datasource no container-EJB :
+	java:/jdbc/LightSecure
+
+Adicionar a seguinte REALME :
+
+
+				<security-domain name="LightSecureRealm" cache-type="default">
+                    <authentication>
+                        <login-module code="org.jboss.security.auth.spi.DatabaseServerLoginModule" flag="required">
+                            <module-option name="dsJndiName" value="jdbc/LightSecure"/>
+                            <module-option name="principalsQuery" value="select password from user where login=? and active=1"/>
+                            <module-option name="rolesQuery" value="select p.roles, 'Roles' from user u, user_roles p where u.login=? and u.id=p.user_i$
+                            <module-option name="hashAlgorithm" value="MD5"/>
+                            <module-option name="hashEncoding" value="base64"/>
+                            <module-option name="unauthenticatedIdentity" value="guest"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>

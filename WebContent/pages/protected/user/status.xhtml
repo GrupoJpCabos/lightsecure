@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="refresh" content="2" />
+	
+	<title>
+		<ui:insert name="title">Light Secure Web</ui:insert>
+	</title>
+	<h:outputStylesheet library="css" name="style.css"/> 
+	
+	<style type="text/css"><!--
+	#logotipo {
+		text-align: center;
+	} -->
+    </style>
+    
+</h:head>
+<h:body>
+	<f:view contentType="text/html; charset=UTF-8">
+
+	<div id="container">
+		<div id="title">
+			<font color="#66600">
+			<ui:insert name="title">IBCA Controle Membros</ui:insert>
+			</font>
+		</div>
+	
+		<div id="logotipo">
+			<h:graphicImage library="imagens" name="logotipo_g.png"/>
+		</div>
+		<div id="barMenu">
+	    	<ui:insert name="barMenu">
+	    		<ui:include src="/pages/protected/user/systemMenu.xhtml"/>
+	   		</ui:insert>   
+		</div>
+		<div id="body">
+
+
+	<ui:define name="title">#{msgs.homeStatusTitle} </ui:define>
+		
+		<p:dataTable value="#{statusMB.lstStatus}" var="status"
+		emptyMessage="#{msgs.emptyStatusList}"> 
+		
+			<f:facet name="header"> #{msgs.homeStatusTitle} </f:facet>
+			
+			<p:column headerText="#{msgs.status}" sortBy="#{status.status}">
+				<h:graphicImage library="imagens" 
+								name="#{status.status}.png" style="border:0"/>
+			</p:column>
+			
+			<p:column headerText="#{msgs.registrationPlc}" filterBy="#{status.station.registrationPlc}">
+				#{status.station.registrationPlc}
+			</p:column>
+			
+			<p:column headerText="#{msgs.station}" filterBy="#{status.station.name}">
+				#{status.station.name}
+			</p:column>
+			
+			<p:column headerText="#{msgs.date}"> 
+				<h:outputText value="#{status.date}">
+					<f:convertDateTime pattern="dd-MM-yyyy  HH:mm:ss"/>
+				</h:outputText>
+			</p:column>
+			
+			
+			
+		</p:dataTable>
+	</div>
+</div>
+</f:view>
+</h:body>
+</html>
